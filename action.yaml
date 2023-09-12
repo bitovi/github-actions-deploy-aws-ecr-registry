@@ -1,0 +1,170 @@
+name: 'Deploy ECR Registry to AWS'
+description: 'Deploy an ECR Registry in AWS.'
+branding:
+  icon: upload-cloud
+  color: red
+inputs:
+  bitops_code_only:
+    description: 'Will run only the generation phase of BitOps, where the Terraform and Ansible code is built.'
+    required: false
+  bitops_code_store:
+    description: 'Store BitOps code as a GitHub artifact'
+    required: false
+    default: false
+
+  # AWS
+  aws_access_key_id:
+    description: 'AWS access key ID'
+    required: true
+  aws_secret_access_key:
+    description: 'AWS secret access key'
+    required: true
+  aws_session_token:
+    description: 'AWS session token'
+    required: false
+  aws_default_region:
+    description: 'AWS default region'
+    required: false
+    default: us-east-1
+  aws_resource_identifier:
+    description: 'Set to override the AWS resource identifier for the deployment.  Defaults to `${org}-{repo}-{branch}`.  Use with destroy to destroy specific resources.'
+    required: false
+  aws_additional_tags:
+    description: 'A JSON object of additional tags that will be included on created resources. Example: `{"key1": "value1", "key2": "value2"}`'
+    required: false
+
+  # Terraform
+  tf_state_bucket:
+    description: 'AWS S3 bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`'
+    required: false
+  tf_state_bucket_destroy:
+    description: 'Force purge and deletion of S3 bucket defined. Any file contained there will be destroyed. `stack_destroy` must also be `true`'
+    required: false
+  
+  # ECR Inputs
+  aws_ecr_repo_create:
+    description: 'Determines whether a repository will be created'
+    required: false
+  aws_ecr_repo_type:
+    description: 'The type of repository to create. Either `public` or `private`. Defaults to `private`.'
+    required: false
+  aws_ecr_repo_name:
+    description: 'The name of the repository. If none, will use the default resource-identifier.'
+    required: false
+  aws_ecr_repo_mutable:
+    description: 'The tag mutability setting for the repository. Set this to true if `MUTABLE`. Defaults to false, so `IMMUTABLE`'
+    required: false
+  aws_ecr_repo_encryption_type:
+    description: 'The encryption type for the repository. Must be one of: `KMS` or `AES256`. Defaults to `AES256`'
+    required: false
+  aws_ecr_repo_encryption_key_arn:
+    description: 'The ARN of the KMS key to use when encryption_type is `KMS`. If not specified, uses the default AWS managed key for ECR'
+    required: false
+  aws_ecr_repo_force_destroy:
+    description: 'If `true`, will delete the repository even if it contains images. Defaults to `false`'
+    required: false
+  aws_ecr_repo_image_scan:
+    description: 'Indicates whether images are scanned after being pushed to the repository (`true`) (default) or not scanned (`false`)'
+    required: false
+  aws_ecr_registry_scan_rule:
+    description: 'One or multiple blocks specifying scanning rules to determine which repository filters are used and at what frequency scanning will occur. Use []'
+    required: false
+  aws_ecr_registry_pull_through_cache_rules:
+    description: 'List of pull through cache rules to create. Use map(map(string)). '
+    required: false
+  aws_ecr_registry_scan_config:
+    description: 'Scanning type to set for the registry. Can be either `ENHANCED` or `BASIC`. Defaults to null.'
+    required: false
+  aws_ecr_registry_replication_rules_input:
+    description: 'The replication rules for a replication configuration. A maximum of 10 are allowed. Defaults to `[]`.'
+    required: false
+  aws_ecr_repo_policy_attach:
+    description: 'Determines whether a repository policy will be attached to the repository. Defaults to `true`.'
+    required: false
+  aws_ecr_repo_policy_create:
+    description: 'Determines whether a repository policy will be created. Defaults to `true`.'
+    required: false
+  aws_ecr_repo_policy_input:
+    description: 'The JSON policy to apply to the repository. If defined overrides the default policy'
+    required: false
+  aws_ecr_repo_read_arn:
+    description: 'The ARNs of the IAM users/roles that have read access to the repository. (Comma separated list)'
+    required: false
+  aws_ecr_repo_write_arn:
+    description: 'The ARNs of the IAM users/roles that have read/write access to the repository. (Comma separated list)'
+    required: false
+  aws_ecr_repo_read_arn_lambda:
+    description: 'The ARNs of the Lambda service roles that have read access to the repository. (Comma separated list)'
+    required: false
+  aws_ecr_lifecycle_policy_input:
+    description: 'The policy document. This is a JSON formatted string. See more details about [Policy Parameters](http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters) in the official AWS docs'
+    required: false
+  aws_ecr_public_repo_catalog:
+    description: 'Catalog data configuration for the repository. Defaults to `{}`.'
+    required: false
+  aws_ecr_registry_policy_input:
+    description: 'The policy document. This is a JSON formatted string'
+   required: false
+  aws_ecr_additional_tags:
+    description: 'A list of strings that will be added to created resources'
+    required: false
+
+outputs:
+  # ECR
+  ecr_repository_url:
+    description: "ECR Repo URL"
+    value: ${{ steps.deploy.outputs.ecr_repository_url }}
+  ecr_repository_arn:
+    description: "ECR Repo ARN"
+    value: ${{ steps.deploy.outputs.ecr_repository_arn }}
+  ecr_repository_registry_id:
+    description: "ECR Repo Registry ID"
+    value: ${{ steps.deploy.outputs.ecr_repository_registry_id }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Deploy with BitOps
+      id: deploy
+      uses: bitovi/github-actions-commons@add-ecr-registry
+      with:
+        # Current repo vars
+        bitops_code_only: ${{ inputs.bitops_code_only }}
+        bitops_code_store: ${{ inputs.bitops_code_store }}
+
+        # AWS
+        aws_access_key_id: ${{ inputs.aws_access_key_id }}
+        aws_secret_access_key: ${{ inputs.aws_secret_access_key }}
+        aws_session_token: ${{ inputs.aws_session_token }}
+        aws_default_region: ${{ inputs.aws_default_region }}
+        aws_resource_identifier: ${{ inputs.aws_resource_identifier }}
+        aws_additional_tags: ${{ inputs.aws_additional_tags }}
+
+        # Terraform
+        tf_state_bucket: ${{ inputs.tf_state_bucket }}
+        tf_state_bucket_destroy: ${{ inputs.tf_state_bucket_destroy }}
+        tf_state_bucket_provider: 'aws'
+
+        # ECR
+        aws_ecr_repo_create: ${{ inputs.aws_ecr_repo_create }}
+        aws_ecr_repo_type: ${{ inputs.aws_ecr_repo_type }}
+        aws_ecr_repo_name: ${{ inputs.aws_ecr_repo_name }}
+        aws_ecr_repo_mutable: ${{ inputs.aws_ecr_repo_mutable }}
+        aws_ecr_repo_encryption_type: ${{ inputs.aws_ecr_repo_encryption_type }}
+        aws_ecr_repo_encryption_key_arn: ${{ inputs.aws_ecr_repo_encryption_key_arn }}
+        aws_ecr_repo_force_destroy: ${{ inputs.aws_ecr_repo_force_destroy }}
+        aws_ecr_repo_image_scan: ${{ inputs.aws_ecr_repo_image_scan }}
+        aws_ecr_registry_scan_rule: ${{ inputs.aws_ecr_registry_scan_rule }}
+        aws_ecr_registry_pull_through_cache_rules: ${{ inputs.aws_ecr_registry_pull_through_cache_rules }}
+        aws_ecr_registry_scan_config: ${{ inputs.aws_ecr_registry_scan_config }}
+        aws_ecr_registry_replication_rules_input: ${{ inputs.aws_ecr_registry_replication_rules_input }}
+        aws_ecr_repo_policy_attach: ${{ inputs.aws_ecr_repo_policy_attach }}
+        aws_ecr_repo_policy_create: ${{ inputs.aws_ecr_repo_policy_create }}
+        aws_ecr_repo_policy_input: ${{ inputs.aws_ecr_repo_policy_input }}
+        aws_ecr_repo_read_arn: ${{ inputs.aws_ecr_repo_read_arn }}
+        aws_ecr_repo_write_arn: ${{ inputs.aws_ecr_repo_write_arn }}
+        aws_ecr_repo_read_arn_lambda: ${{ inputs.aws_ecr_repo_read_arn_lambda }}
+        aws_ecr_lifecycle_policy_input: ${{ inputs.aws_ecr_lifecycle_policy_input }}
+        aws_ecr_public_repo_catalog: ${{ inputs.aws_ecr_public_repo_catalog }}
+        aws_ecr_registry_policy_input: ${{ inputs.aws_ecr_registry_policy_input }}
+        aws_ecr_additional_tags: ${{ inputs.aws_ecr_additional_tags }}

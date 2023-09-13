@@ -37,6 +37,9 @@ inputs:
   tf_state_bucket:
     description: 'AWS S3 bucket to use for Terraform state. Defaults to `${org}-${repo}-{branch}-tf-state`'
     required: false
+  tf_stack_destroy:
+    description: 'Set to "true" to Destroy the stack through Terraform.'
+    required: false
   tf_state_bucket_destroy:
     description: 'Force purge and deletion of S3 bucket defined. Any file contained there will be destroyed. `stack_destroy` must also be `true`'
     required: false
@@ -142,6 +145,7 @@ runs:
 
         # Terraform
         tf_state_bucket: ${{ inputs.tf_state_bucket }}
+        tf_stack_destroy: ${{ inputs.tf_stack_destroy }}
         tf_state_bucket_destroy: ${{ inputs.tf_state_bucket_destroy }}
         tf_state_bucket_provider: 'aws'
 

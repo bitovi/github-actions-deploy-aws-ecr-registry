@@ -135,7 +135,7 @@ runs:
   steps:
     - name: Deploy with BitOps
       id: deploy
-      uses: bitovi/github-actions-commons@v0.0.6
+      uses: bitovi/github-actions-commons@tf-state-file-name-delete-bug
       with:
         # Current repo vars
         bitops_code_only: ${{ inputs.bitops_code_only }}

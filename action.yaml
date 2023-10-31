@@ -1,5 +1,5 @@
 name: 'Deploy an ECR Registry to AWS'
-description: 'Deploy an AWS hosted ECR Registry to store Docker and OCI images and artifacts.'
+description: 'Deploys an Amazon hosted ECR Registry to store Docker and OCI images and artifacts.'
 branding:
   icon: upload-cloud
   color: red

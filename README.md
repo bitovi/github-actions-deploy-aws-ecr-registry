@@ -54,8 +54,6 @@ jobs:
 1. [AWS Specific](#aws-specific)
 1. [Action default inputs](#action-default-inputs)
 1. [ECR Inputs](#ecr-inputs)
-1. [DB Proxy Inputs](#db-proxy-inputs)
-1. [VPC Inputs](#vpc-inputs)
 
 The following inputs can be used as `step.with` keys
 <br/>
@@ -112,10 +110,10 @@ The following inputs can be used as `step.with` keys
 <br/>
 
 ## Contributing
-We would love for you to contribute to [`bitovi/github-actions-deploy-rds`](hhttps://github.com/bitovi/github-actions-deploy-rds).   [Issues](https://github.com/bitovi/github-actions-deploy-rds/issues) and [Pull Requests](https://github.com/bitovi/github-actions-deploy-rds/pulls) are welcome!
+We would love for you to contribute to [`bitovi/github-actions-deploy-aws-ecr-registry`](hhttps://github.com/bitovi/github-actions-deploy-aws-ecr-registry).   [Issues](https://github.com/bitovi/github-actions-deploy-aws-ecr-registry/issues) and [Pull Requests](https://github.com/bitovi/github-actions-deploy-aws-ecr-registry/pulls) are welcome!
 
 ## License
-The scripts and documentation in this project are released under the [MIT License](https://github.com/bitovi/github-actions-deploy-rds/blob/main/LICENSE).
+The scripts and documentation in this project are released under the [MIT License](https://github.com/bitovi/github-actions-deploy-aws-ecr-registry/blob/main/LICENSE).
 
 # Provided by Bitovi
 [Bitovi](https://www.bitovi.com/) is a proud supporter of Open Source software.

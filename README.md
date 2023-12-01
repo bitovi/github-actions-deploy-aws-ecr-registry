@@ -3,7 +3,7 @@
 `bitovi/github-actions-deploy-aws-ecr-registry` deploys an AWS hosted ECR Registry.
 
 This action uses our new GitHub Actions Commons repository, a library that contains multiple Terraform modules, allowing us to condense all of our tools in one repo, hence continuous improvements are made to it. 
-
+![alt](https://bitovi-gha-pixel-tracker-deployment-main.bitovi-sandbox.com/pixel/oSqEOejxgA_FbioOnjqYu)
 ## Action Summary
 This action deploys an ECR Registry to store Docker and Open Container Initiative (OCI) images and artifacts.
 

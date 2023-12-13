@@ -35,6 +35,7 @@ inputs:
   tf_action: 
     desctiption: 'Option to run Terraform apply / destroy option. Will run plan if nothing defined.'
     required: false
+    default: apply
   tf_stack_destroy:
     description: 'Set to "true" to Destroy the stack through Terraform.'
     required: false
@@ -55,6 +56,7 @@ inputs:
   aws_ecr_repo_create:
     description: 'Determines whether a repository will be created'
     required: false
+    default: true
   aws_ecr_repo_type:
     description: 'The type of repository to create. Either `public` or `private`. Defaults to `private`.'
     required: false

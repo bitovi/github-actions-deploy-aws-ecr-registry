@@ -15,6 +15,7 @@ else
   fi
   
   AWS_PRINCIPAL=$(aws sts get-caller-identity --query "Arn" --output text)
+  AWS_ORG_ID=$(aws organizations describe-organization --query Organization.Id --output text)
 
   # Set bucket policy
   aws s3api put-bucket-policy --bucket "$TF_STATE_BUCKET" --policy '{
@@ -30,6 +31,25 @@ else
       }
     ]
   }'
+
+  aws s3api put-bucket-policy --bucket "$TF_STATE_BUCKET" --policy '{
+  {
+    "Version": "2012-10-17",
+    "Statement": [{
+        "Sid": "AllowGetObject",
+        "Principal": {
+            "AWS": "*"
+        },
+        "Effect": "Allow",
+        "Action": "s3:GetObject",
+        "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
+        "Condition": {
+            "StringEquals": {
+                "aws:PrincipalOrgID": ["'"$AWS_ORG_ID"'""]
+            }
+        }
+    }]
+}
 
   if ! [[ -z $(aws s3api head-bucket --bucket $TF_STATE_BUCKET 2>&1) ]]; then
     echo "Bucket does not exist or permission is not there to use it."

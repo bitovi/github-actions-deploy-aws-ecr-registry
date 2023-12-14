@@ -24,7 +24,8 @@ else
         "Effect": "Allow",
         "Principal": {
           "AWS": "'"$AWS_PRINCIPAL"'"
-        },        "Action": "s3:*",
+        },
+        "Action": "s3:*",
         "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
       }
     ]

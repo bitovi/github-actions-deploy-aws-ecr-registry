@@ -46,6 +46,7 @@ terraform {
 
 provider \"aws\" {
   region = \"${AWS_DEFAULT_REGION}\"
+  alias = \"ecr\" 
   default_tags {
     tags = merge(
       local.aws_tags,

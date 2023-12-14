@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 echo ""
 if [[ ${#TF_STATE_BUCKET} > 63 ]]; then
@@ -36,8 +36,8 @@ else
     }]
   }'
 
-  if ! [[ -z $(aws s3api head-bucket --bucket $TF_STATE_BUCKET 2>&1) ]]; then
-    echo "Bucket does not exist or permission is not there to use it."
-    exit 63
-  fi
+  #if ! [[ -z $(aws s3api head-bucket --bucket $TF_STATE_BUCKET 2>&1) ]]; then
+  #  echo "Bucket does not exist or permission is not there to use it."
+  #  exit 63
+  #fi
 fi

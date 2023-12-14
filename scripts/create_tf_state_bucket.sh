@@ -33,7 +33,6 @@ else
   }'
 
   aws s3api put-bucket-policy --bucket "$TF_STATE_BUCKET" --policy '{
-  {
     "Version": "2012-10-17",
     "Statement": [{
         "Sid": "AllowGetObject",
@@ -49,7 +48,7 @@ else
             }
         }
     }]
-}
+  }'
 
   if ! [[ -z $(aws s3api head-bucket --bucket $TF_STATE_BUCKET 2>&1) ]]; then
     echo "Bucket does not exist or permission is not there to use it."

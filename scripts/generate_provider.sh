@@ -49,8 +49,7 @@ provider \"aws\" {
   alias = \"ecr\" 
   default_tags {
     tags = merge(
-      local.aws_tags,
-      var.aws_additional_tags
+      local.ecr_tags
     )
   }
 }

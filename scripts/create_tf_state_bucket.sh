@@ -45,7 +45,7 @@ else
         "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
         "Condition": {
             "StringEquals": {
-                "aws:PrincipalOrgID": ["'"$AWS_ORG_ID"'""]
+                "aws:PrincipalOrgID": ["'"$AWS_ORG_ID"'"]
             }
         }
     }]

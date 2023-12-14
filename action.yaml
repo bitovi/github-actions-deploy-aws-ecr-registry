@@ -121,6 +121,7 @@ inputs:
     description: 'A list of strings that will be added to created resources'
     required: false
 
+outputs:
   # ECR
   ecr_repository_arn:
     description: "ECR Repo ARN"

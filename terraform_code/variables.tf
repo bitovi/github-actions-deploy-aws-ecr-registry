@@ -167,7 +167,3 @@ variable "app_branch_name" {
   type        = string
   description = "GitHub Branch Name"
 }
-variable "ops_repo_environment" {
-  type        = string
-  description = "Ops Repo Environment (i.e. directory name)"
-}

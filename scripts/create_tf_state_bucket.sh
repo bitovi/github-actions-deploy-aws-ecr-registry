@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 echo ""
 if [[ ${#TF_STATE_BUCKET} > 63 ]]; then
   echo "Bucket name exceeds name limit"
@@ -20,8 +22,9 @@ else
     "Statement": [
       {
         "Effect": "Allow",
-        "Principal": "'"$AWS_PRINCIPAL"'",
-        "Action": "s3:*",
+        "Principal": {
+          "AWS": "'"$AWS_PRINCIPAL"'"
+        },        "Action": "s3:*",
         "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
       }
     ]

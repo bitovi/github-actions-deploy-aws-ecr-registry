@@ -20,24 +20,10 @@ else
   # Set bucket policy
   aws s3api put-bucket-policy --bucket "$TF_STATE_BUCKET" --policy '{
     "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Effect": "Allow",
-        "Principal": {
-          "AWS": "'"$AWS_PRINCIPAL"'"
-        },
-        "Action": "s3:*",
-        "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
-      }
-    ]
-  }'
-
-  aws s3api put-bucket-policy --bucket "$TF_STATE_BUCKET" --policy '{
-    "Version": "2012-10-17",
     "Statement": [{
         "Sid": "AllowGetObject",
         "Principal": {
-            "AWS": "*"
+            "AWS": "'"$AWS_PRINCIPAL"'"
         },
         "Effect": "Allow",
         "Action": "s3:*",

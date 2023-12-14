@@ -11,6 +11,8 @@ else
   else
     aws s3api create-bucket --bucket $TF_STATE_BUCKET --region $AWS_DEFAULT_REGION --create-bucket-configuration LocationConstraint=$AWS_DEFAULT_REGION || true
   fi
+  AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+  aws s3api put-bucket-acl --bucket $TF_STATE_BUCKET --acl bucket-owner-full-control --grant-full-control id=$AWS_ACCOUNT_ID
 
   if ! [[ -z $(aws s3api head-bucket --bucket $TF_STATE_BUCKET 2>&1) ]]; then
     echo "Bucket does not exist or permission is not there to use it."

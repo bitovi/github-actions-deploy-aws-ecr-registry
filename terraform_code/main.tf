@@ -1,5 +1,5 @@
 module "aws_ecr" {
-  source = "../ecr"
+  source = "./ecr"
   # ECR
   aws_ecr_repo_type                         = var.aws_ecr_repo_type
   aws_ecr_repo_name                         = var.aws_ecr_repo_name

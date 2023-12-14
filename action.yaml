@@ -124,10 +124,10 @@ inputs:
   # ECR
   ecr_repository_arn:
     description: "ECR Repo ARN"
-    value: ${{ steps.deploy.outputs.ecr_repository_arn }}
+    value: ${{ steps.apply.outputs.ecr_repository_arn }}
   ecr_repository_url:
     description: "ECR Repo URL"
-    value: ${{ steps.deploy.outputs.ecr_repository_url }}
+    value: ${{ steps.apply.outputs.ecr_repository_url }}
 
 runs:
   using: 'composite'

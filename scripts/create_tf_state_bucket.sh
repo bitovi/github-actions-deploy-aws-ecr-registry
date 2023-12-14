@@ -7,9 +7,9 @@ if [[ ${#TF_STATE_BUCKET} > 63 ]]; then
 else
   echo "Creating TF_STATE_BUCKET: $TF_STATE_BUCKET"
   if [ "$AWS_DEFAULT_REGION" == "us-east-1" ]; then
-    aws s3api create-bucket --bucket $TF_STATE_BUCKET --region $AWS_DEFAULT_REGION || true
+    aws s3api create-bucket --bucket $TF_STATE_BUCKET --region $AWS_DEFAULT_REGION --acl private || true
   else
-    aws s3api create-bucket --bucket $TF_STATE_BUCKET --region $AWS_DEFAULT_REGION --create-bucket-configuration LocationConstraint=$AWS_DEFAULT_REGION || true
+    aws s3api create-bucket --bucket $TF_STATE_BUCKET --region $AWS_DEFAULT_REGION --create-bucket-configuration LocationConstraint=$AWS_DEFAULT_REGION --acl private|| true
   fi
 
   # Set bucket policy

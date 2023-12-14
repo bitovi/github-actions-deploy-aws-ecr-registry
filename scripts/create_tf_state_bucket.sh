@@ -41,7 +41,7 @@ else
             "AWS": "*"
         },
         "Effect": "Allow",
-        "Action": "s3:GetObject",
+        "Action": "s3:*",
         "Resource": "arn:aws:s3:::'"$TF_STATE_BUCKET"'/*"
         "Condition": {
             "StringEquals": {

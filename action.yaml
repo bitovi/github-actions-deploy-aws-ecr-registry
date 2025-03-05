@@ -54,6 +54,7 @@ inputs:
   aws_ecr_repo_create:
     description: 'Determines whether a repository will be created'
     required: false
+    default: true
   aws_ecr_repo_type:
     description: 'The type of repository to create. Either `public` or `private`. Defaults to `private`.'
     required: false
@@ -135,7 +136,7 @@ runs:
   steps:
     - name: Deploy with BitOps
       id: deploy
-      uses: bitovi/github-actions-commons@v0.0.7
+      uses: bitovi/github-actions-commons@v1
       with:
         # Current repo vars
         bitops_code_only: ${{ inputs.bitops_code_only }}

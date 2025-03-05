@@ -41,13 +41,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - id: ecr-deploy
-      uses: bitovi/github-actions-deploy-aws-ecr-registry@v0.1.0
+      uses: bitovi/github-actions-deploy-aws-ecr-registry@v0.1.1
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_default_region: us-east-1
-
-        aws_ecr_repo_create: true
 ```
 
 ### Inputs
@@ -85,7 +83,7 @@ The following inputs can be used as `step.with` keys
 #### **ECR Inputs**
 | Name             | Type    | Description                        |
 |------------------|---------|------------------------------------|
-| `aws_ecr_repo_create` | Boolean | Determines whether a repository will be created. |
+| `aws_ecr_repo_create` | Boolean | Determines whether a repository will be created. Defaults to `true`. |
 | `aws_ecr_repo_type` | String | The type of repository to create. Either `public` or `private`. Defaults to `private`. |
 | `aws_ecr_repo_name` | String | The name of the repository. If none, will use the default resource-identifier. |
 | `aws_ecr_repo_mutable` | Boolean | The tag mutability setting for the repository. Set this to true if `MUTABLE`. Defaults to false, so `IMMUTABLE`. |

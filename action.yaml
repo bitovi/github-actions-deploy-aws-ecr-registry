@@ -103,6 +103,12 @@ inputs:
   aws_ecr_repo_write_arn:
     description: 'The ARNs of the IAM users/roles that have read/write access to the repository. (Comma separated list)'
     required: false
+  aws_ecr_repo_read_external_aws_account:
+    description: 'The ARNs of the external AWS accounts that have read access to the repository'
+    required: false
+  aws_ecr_repo_write_external_aws_account:
+    description: 'The ARNs of the external AWS accounts that have write access to the repository'
+    required: false
   aws_ecr_repo_read_arn_lambda:
     description: 'The ARNs of the Lambda service roles that have read access to the repository. (Comma separated list)'
     required: false
@@ -136,7 +142,7 @@ runs:
   steps:
     - name: Deploy with BitOps
       id: deploy
-      uses: bitovi/github-actions-commons@ecr-json-fix
+      uses: bitovi/github-actions-commons@add-ecr-registry-external-account-read-write
       with:
         # Current repo vars
         bitops_code_only: ${{ inputs.bitops_code_only }}
@@ -176,6 +182,8 @@ runs:
         aws_ecr_repo_policy_input: ${{ inputs.aws_ecr_repo_policy_input }}
         aws_ecr_repo_read_arn: ${{ inputs.aws_ecr_repo_read_arn }}
         aws_ecr_repo_write_arn: ${{ inputs.aws_ecr_repo_write_arn }}
+        aws_ecr_repo_read_external_aws_account: ${{ inputs.aws_ecr_repo_read_external_aws_account }}
+        aws_ecr_repo_write_external_aws_account: ${{ inputs.aws_ecr_repo_write_external_aws_account }}
         aws_ecr_repo_read_arn_lambda: ${{ inputs.aws_ecr_repo_read_arn_lambda }}
         aws_ecr_lifecycle_policy_input: ${{ inputs.aws_ecr_lifecycle_policy_input }}
         aws_ecr_public_repo_catalog: ${{ inputs.aws_ecr_public_repo_catalog }}

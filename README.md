@@ -41,11 +41,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - id: ecr-deploy
-      uses: bitovi/github-actions-deploy-aws-ecr-registry@v0.1.1
+      uses: bitovi/github-actions-deploy-aws-ecr-registry@v0.1.2
       with:
         aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws_default_region: us-east-1
+        aws_ecr_repo_mutable: true
+        aws_ecr_repo_encryption_type: AES256
+        aws_ecr_repo_read_external_aws_account: 123456789.987654321
+        aws_ecr_lifecycle_policy_input: '{\"rules\":[{\"rulePriority\":1,\"description\":\"expire-after-100\",\"selection\":{\"tagStatus\":\"any\",\"countType\":\"imageCountMoreThan\",\"countNumber\":100},\"action\":{\"type\":\"expire\"}}]}'
 ```
 
 ### Inputs
@@ -100,6 +104,8 @@ The following inputs can be used as `step.with` keys
 | `aws_ecr_repo_policy_input` | String | The JSON policy to apply to the repository. If defined overrides the default policy. |
 | `aws_ecr_repo_read_arn` | String | The ARNs of the IAM users/roles that have read access to the repository. (Comma separated list). |
 | `aws_ecr_repo_write_arn` | String | The ARNs of the IAM users/roles that have read/write access to the repository. (Comma separated list). |
+| `aws_ecr_repo_read_external_aws_account`| String | Comma separated list of AWS Accounts IDs that will be provided with read access to the registry. |
+| `aws_ecr_repo_write_external_aws_account`| String | Comma separated list of AWS Accounts IDs that will be provided with write access to the registry. |
 | `aws_ecr_repo_read_arn_lambda` | String | The ARNs of the Lambda service roles that have read access to the repository. (Comma separated list). |
 | `aws_ecr_lifecycle_policy_input` | String | The policy document. This is a JSON formatted string. See more details about [Policy Parameters](http://docs.aws.amazon.com/AmazonECR/latest/userguide/LifecyclePolicies.html#lifecycle_policy_parameters) in the official AWS docs. |
 | `aws_ecr_public_repo_catalog` | String | Catalog data configuration for the repository. Defaults to `{}`. |
